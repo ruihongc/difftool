@@ -1,35 +1,16 @@
 # difftool
 Outputs the differences between two input files in HTML markup. Supports syntax highlighting for code. Requires python, difflib, argparse and pygments.
 
-usage: python difftool.py [-h] [-L LANGUAGE] [-S STYLE] [-C1 COLOR] [-C2 COLOR] [-B1 COLOR] [-B2 COLOR] [-BG COLOR] [-N COLOR]
-                   File1 File2 Outfile
+Usage: difftool.py File1 File2 Outfile [-h] [-L LANGUAGE] [-S STYLE] [-C1 COLOR] [-C2 COLOR] [-B1 COLOR] [-B2 COLOR] [-BG COLOR] [-N COLOR]
 
-Outputs the differences between two input files in HTML markup. Requires difflib, argparse and pygments.
+E.g. difftool.py helloworld.py byeworld.py -L python -S emacs -BG lavender
 
-positional arguments:
-  File1                 First file to compare.
-  File2                 Second file to compare.
-  Outfile               File to write HTML output to.
+More help: difftool.py -h
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -L LANGUAGE, -l LANGUAGE, --lang LANGUAGE, --language LANGUAGE
-                        Syntax highlighting for specified programming language (format: LANGUAGE), file extension type
-                        (format: *.EXTENSION), or MIME type (format: TYPE/SUBTYPE). Default is no syntax highlighting.
-  -S STYLE, -s STYLE, --style STYLE
-                        Syntax highlighting style. Default is xcode.
-  -C1 COLOR, -c1 COLOR, --color1 COLOR
-                        Color to highlight differences in the first file with. HTML color name or HEX value. Default
-                        is lightpink.
-  -C2 COLOR, -c2 COLOR, --color2 COLOR
-                        Color to highlight differences in the second file with. HTML color name or HEX value. Default
-                        is lightgreen.
-  -B1 COLOR, -b1 COLOR, --bg1 COLOR
-                        Background color of leftmost column. HTML color name or HEX value. Default is white.
-  -B2 COLOR, -b2 COLOR, --bg2 COLOR
-                        Background color of middle (line number) column. HTML color name or HEX value. Default is
-                        whitesmoke.
-  -BG COLOR, -B3 COLOR, -bg COLOR, -b3 COLOR, --bg3 COLOR
-                        Background color of third (contents) column. HTML color name or HEX value. Default is azure.
-  -N COLOR, -n COLOR, --num COLOR, --number COLOR, --numbers COLOR
-                        Font color of line numbers. HTML color name or HEX value. Default is dimgrey.
+Can also be imported as a python module and used via the 'diff' function.
+
+Output HTML file can be viewed in any browser that supports HTML5 and CSS.
+
+Supported languages for syntax highlighting: ABAP, AMDGPU, APL, ABNF, ActionScript 3, ActionScript, Ada, ADL, Agda, Aheui, Alloy, AmbientTalk, Ampl, HTML + Angular2, Angular2, ANTLR With ActionScript Target, ANTLR With C# Target, ANTLR With CPP Target, ANTLR With Java Target, ANTLR, ANTLR With ObjectiveC Target, ANTLR With Perl Target, ANTLR With Python Target, ANTLR With Ruby Target, ApacheConf, AppleScript, Arduino, Arrow, AspectJ, Asymptote, Augeas, AutoIt, autohotkey, Awk, BBC Basic, BBCode, BC, BST, BARE, Base Makefile, Bash, Bash Session, Batchfile, Befunge, BibTeX, BlitzBasic, BlitzMax, BNF, Boa, Boo, Boogie, Brainfuck, BUGS, CAmkES, C, CMake, c-objdump, CPSA, aspx-cs, C#, ca65 assembler, cADL, CapDL, Cap'n Proto, CBM BASIC V2, CDDL, Ceylon, CFEngine3, ChaiScript, Chapel, Charmci, HTML+Cheetah, JavaScript+Cheetah, Cheetah, XML+Cheetah, Cirru, Clay, Clean, Clojure, ClojureScript, COBOLFree, COBOL, CoffeeScript, Coldfusion CFC, Coldfusion HTML, cfstatement, Common Lisp, Component Pascal, Coq, C++, cpp-objdump, Crmsh, Croc, Cryptol, Crystal, Csound Document, Csound Orchestra, Csound Score, CSS+Django/Jinja, CSS+Ruby, CSS+Genshi Text, CSS, CSS+PHP, CSS+Smarty, CUDA, Cypher, Cython, D, d-objdump, Darcs Patch, Dart, DASM16, Debian Control file, Delphi, Devicetree, dg, Diff, Django/Jinja, Docker, DTD, Duel, Dylan session, Dylan, DylanLID, ECL, eC, Earl Grey, Easytrieve, EBNF, Eiffel, Elixir iex session, Elixir, Elm, EmacsLisp, E-mail, ERB, Erlang, Erlang erl session, HTML+Evoque, Evoque, XML+Evoque, execline, Ezhil, F#, FStar, Factor, Fancy, Fantom, Felix, Fennel, Fish, Flatline, FloScript, Forth, FortranFixed, Fortran, FoxPro, Freefem, Futhark, GAP, GDScript, GLSL, GAS, g-code, Genshi, Genshi Text, Gettext Catalog, Gherkin, Gnuplot, Go, Golo, GoodData-CL, Gosu, Gosu Template, Graphviz, Groff, Groovy, HLSL, Haml, HTML+Handlebars, Handlebars, Haskell, Haxe, Hexdump, HSAIL, Hspec, HTML+Django/Jinja, HTML+Genshi, HTML, HTML+PHP, HTML+Smarty, HTTP, Hxml, Hy, Hybris, IDL, Icon, Idris, Igor, Inform 6, Inform 6 template, Inform 7, INI, Io, Ioke, IRC logs, Isabelle, J, JAGS, Jasmin, Java, JavaScript+Django/Jinja, JavaScript+Ruby, JavaScript+Genshi Text, JavaScript, JavaScript+PHP, JavaScript+Smarty, JCL, JSGF, JSONBareObject, JSON-LD, JSON, Java Server Page, Julia console, Julia, Juttle, Kal, Kconfig, Kernel log, Koka, Kotlin, Kuin, LSL, CSS+Lasso, HTML+Lasso, JavaScript+Lasso, Lasso, XML+Lasso, Lean, LessCss, Lighttpd configuration file, Limbo, liquid, Literate Agda, Literate Cryptol, Literate Haskell, Literate Idris, LiveScript, LLVM, LLVM-MIR Body, LLVM-MIR, Logos, Logtalk, Lua, MIME, MOOCode, MSDOS Session, Makefile, CSS+Mako, HTML+Mako, JavaScript+Mako, Mako, XML+Mako, MAQL, Markdown, Mask, Mason, Mathematica, Matlab, Matlab session, MiniD, MiniScript, Modelica, Modula-2, MoinMoin/Trac Wiki markup, Monkey, Monte, MoonScript, Mosel, CSS+mozpreproc, mozhashpreproc, Javascript+mozpreproc, mozpercentpreproc, XUL+mozpreproc, MQL, Mscgen, MuPAD, MXML, MySQL, CSS+Myghty, HTML+Myghty, JavaScript+Myghty, Myghty, XML+Myghty, NCL, NSIS, NASM, objdump-nasm, Nemerle, nesC, NestedText, NewLisp, Newspeak, Nginx configuration file, Nimrod, Nit, Nix, Notmuch, NuSMV, NumPy, objdump, Objective-C, Objective-C++, Objective-J, OCaml, Octave, ODIN, OMG Interface Definition Language, Ooc, Opa, OpenEdge ABL, PacmanConf, Pan, ParaSail, Pawn, PEG, Perl6, Perl, PHP, Pig, Pike, PkgConfig, PL/pgSQL, Pointless, Pony, PostScript, PostgreSQL console (psql), PostgreSQL SQL dialect, POVRay, PowerShell, PowerShell Session, Praat, Prolog, PromQL, Properties, Protocol Buffer, PsySH console session for PHP, Pug, Puppet, PyPy Log, Python 2.x, Python 2.x Traceback, Python console session, Python, Python Traceback, QBasic, QVTO, QML, RConsole, Relax-NG Compact, RPMSpec, Racket, Ragel in C Host, Ragel in CPP Host, Ragel in D Host, Embedded Ragel, Ragel in Java Host, Ragel, Ragel in Objective C Host, Ragel in Ruby Host, Raw token data, Rd, ReasonML, REBOL, Red, Redcode, reg, ResourceBundle, Rexx, RHTML, Ride, Roboconf Graph, Roboconf Instances, RobotFramework, RQL, RSL, reStructuredText, TrafficScript, Ruby irb session, Ruby, Rust, SAS, S, Standard ML, SARL, Sass, Scala, Scaml, scdoc, Scheme, Scilab, SCSS, ShExC, Shen, Sieve, Silver, Singularity, Slash, Slim, Slurm, Smali, Smalltalk, SmartGameFormat, Smarty, Snobol, Snowball, Solidity, SourcePawn, Debian Sourcelist, SPARQL, SQL, sqlite3con, SquidConf, Scalate Server Page, Stan, Stata, SuperCollider, Swift, SWIG, systemverilog, TAP, Typographic Number Theory, TOML, TADS 3, TASM, Tcl, Tcsh, Tcsh Session, Tea, teal, Tera Term macro, Termcap, Terminfo, Terraform, TeX, Text only, ThingsDB, Thrift, tiddler, Todotxt, Transact-SQL, Treetop, Turtle, HTML+Twig, Twig, TypeScript, TypoScriptCssData, TypoScriptHtmlData, TypoScript, ucode, Unicon, UrbiScript, USD, VBScript, VCL, VCLSnippets, VCTreeStatus, VGL, Vala, aspx-vb, VB.net, HTML+Velocity, Velocity, XML+Velocity, verilog, vhdl, VimL, WDiff, WebAssembly, Web IDL, Whiley, X10, XQuery, XML+Django/Jinja, XML+Ruby, XML, XML+PHP, XML+Smarty, Xorg, XSLT, Xtend, xtlang, YAML+Jinja, YAML, YANG, Zeek, Zephir, Zig, ANSYS parametric design language, Mako, HTML+Mako, XML+Mako, JavaScript+Mako, CSS+Mako, IPython, IPython3, IPython console session.
+
+See pygments for more info on syntax highlighting.
