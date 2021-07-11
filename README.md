@@ -1,9 +1,11 @@
 # difftool
 Simple tool in Python to output the differences between two input files in HTML markup. Supports syntax highlighting for code. Requires python, difflib, argparse and pygments.
 
-Usage: difftool.py File1 File2 Outfile [-h] [-L LANGUAGE] [-S STYLE] [-C1 COLOR] [-C2 COLOR] [-B1 COLOR] [-B2 COLOR] [-BG COLOR] [-N COLOR]
+Usage: difftool.py File1 File2 Outfile [-h] [-L LANGUAGE] [-S STYLE] [-C1 COLOR] [-C2 COLOR] [-B1 COLOR] [-B2 COLOR] [-BG COLOR] [-N COLOR] [-F FONT]
 
-E.g. difftool.py helloworld.py byeworld.py -L python -S emacs -BG lavender
+All positional arguments are required while all flags are optional.
+
+E.g. difftool.py helloworld.py byeworld.py -L python -S emacs -BG lavender -F "11px monospace"
 
 More help: difftool.py -h
 
