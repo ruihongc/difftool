@@ -3,28 +3,11 @@ from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, get_lexer_for_filename, get_lexer_for_mimetype
 
-def __color__(buffer, lexer, mode, newline, lineno, cur, code, formatter):
-    if buffer:
-        tmp = highlight(''.join(buffer)+'\n', lexer, formatter).replace('\n</pre>', '').replace('div', 'span').replace('<pre>', '').replace('<span></span>', '')[:-1]
-        if mode == '+':
-            tmp = f'<span class="add">{tmp}</span>'
-            for i in range(tmp.count('\n')):
-                newline.append('<span class="add">+\\n</span>\n')
-        elif mode == '-':
-            tmp = f'<span class="rem">{tmp}</span>'
-            for i in range(tmp.count('\n')):
-                newline.append('<span class="rem">-\\n</span>\n')
-        else:
-            for i in range(tmp.count('\n')):
-                newline.append('\n')
-        for i in range(tmp.count('\n')):
-            lineno.append(f'  {cur[0]}  \n')
-            cur[0] += 1
-        code.append(tmp)
-
-def __nocolor__(buffer, mode, newline, lineno, cur, code):
+def __color__(buffer, mode, newline, lineno, cur, code, lexer, formatter):
     if buffer:
         tmp = ''.join(buffer)
+        if lexer:
+            tmp = highlight(tmp+'\n', lexer, formatter).replace('\n</pre>', '').replace('div', 'span').replace('<pre>', '').replace('<span></span>', '')[:-1]
         if mode == '+':
             tmp = f'<span class="add">{tmp}</span>'
             for i in range(tmp.count('\n')):
@@ -41,7 +24,10 @@ def __nocolor__(buffer, mode, newline, lineno, cur, code):
             cur[0] += 1
         code.append(tmp)
 
-def diff(s1, s2, style='xcode', language=None, method=0, c1="lightpink", c2="lightgreen", td1="white", td2="whitesmoke", td3="azure", colorno="dimgrey"):
+def diff(s1, s2, style='xcode', language=None, method=0, c1='lightpink', c2='lightgreen', td1='white', td2='whitesmoke', td3='azure', colorno='dimgrey', font='11px monospace'):
+    ret = ['<style>']
+    lexer = None
+    formatter = None
     if method:
         if method == 1:
             lexer = get_lexer_by_name(language)
@@ -51,9 +37,8 @@ def diff(s1, s2, style='xcode', language=None, method=0, c1="lightpink", c2="lig
             lexer = get_lexer_for_mimetype(language)
         lexer.__init__(stripnl=False, stripall=False, ensurenl=True)
         formatter = HtmlFormatter(style=style)
-        ret = ['<style>', formatter.get_style_defs('.highlight').replace('.highlight {', '.foo {'), '.add { background-color:', c2, ' !important; }', '.rem { background-color:', c1, ' !important; }', 'td { padding: 10px; }', '</style>', f'<table style="white-space:pre;border:1px solid black;"><tr><td style="background-color:{td1}">']
-    else:
-        ret = ['<style>', '.add { background-color:', c2, ' !important; }', '.rem { background-color:', c1, ' !important; }', 'td { padding: 10px; }', '</style>', f'<table style="white-space:pre;border:1px solid black;"><tr><td style="background-color:{td1}">']
+        ret.extend([formatter.get_style_defs('.highlight').replace('.highlight {', '.foo {')])
+    ret.extend(['.add { background-color:', c2, ' !important; }', '.rem { background-color:', c1, ' !important; }', 'td { padding: 10px; }', '</style>', f'<table style="white-space:pre;border:1px solid black;font:{font};"><tr><td style="background-color:{td1}">'])
     buffer = []
     code = []
     lineno = ['  1  \n']
@@ -62,17 +47,11 @@ def diff(s1, s2, style='xcode', language=None, method=0, c1="lightpink", c2="lig
     mode = ' '
     for s in ndiff(s1, s2):
         if s[0] != mode:
-            if method:
-                __color__(buffer, lexer, mode, newline, lineno, cur, code, formatter)
-            else:
-                __nocolor__(buffer, mode, newline, lineno, cur, code)
+            __color__(buffer, mode, newline, lineno, cur, code, lexer, formatter)
             buffer = []
             mode = s[0]
         buffer.append(s[-1])
-    if method:
-        __color__(buffer, lexer, mode, newline, lineno, cur, code, formatter)
-    else:
-        __nocolor__(buffer, mode, newline, lineno, cur, code)
+    __color__(buffer, mode, newline, lineno, cur, code, lexer, formatter)
     ret.append(f'{"".join(newline)}</td><td style="background-color:{td2};text-align:right;color:{colorno};">{"".join(lineno)}</td><td style="background-color:{td3};">{"".join(code)}\n</td></tr></table>')
     return ''.join(ret)
 
@@ -95,6 +74,7 @@ if __name__ == '__main__':
     parser.add_argument('-B2', '-b2', '--bg2', dest='td2', metavar='COLOR', help='Background color of middle (line number) column. HTML color name or HEX value. Default is whitesmoke.', default='whitesmoke')
     parser.add_argument('-BG', '-B3', '-bg', '-b3', '--bg3', dest='td3', metavar='COLOR', help='Background color of third (contents) column. HTML color name or HEX value. Default is azure.', default='azure')
     parser.add_argument('-N', '-n', '--num', '--number', '--numbers', dest='colorno', metavar='COLOR', help='Font color of line numbers. HTML color name or HEX value. Default is dimgrey.', default='dimgrey')
+    parser.add_argument('-F', '-f', '--font', dest='font', metavar='FONT', help='Set CSS font property. Default is 11px monospace.', default='11px monospace')
     args = parser.parse_args()
     try:
         s1 = open(args.File1, 'r').read()
@@ -120,7 +100,7 @@ if __name__ == '__main__':
         elif args.language in mimetypes:
             method = 3
     try:
-        out = diff(s1, s2, style=args.style, language=args.language, method=method, c1=args.c1, c2=args.c2, td1=args.td1, td2=args.td2, td3=args.td3, colorno=args.colorno)
+        out = diff(s1, s2, style=args.style, language=args.language, method=method, c1=args.c1, c2=args.c2, td1=args.td1, td2=args.td2, td3=args.td3, colorno=args.colorno, font=args.font)
     except:
         print(f'Error: Failed to generate HTML markup. Terminating...')
         exit()
